@@ -1,17 +1,20 @@
 version: '3.8'
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: sms-rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+  smsc-simulator-1:
+    image: smsc-simulator:latest
+    container_name: smsc-simulator-1
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
+      - "2775:2775"
 
-volumes:
-  rabbitmq-data:
+  smsc-simulator-2:
+    image: smsc-simulator:latest
+    container_name: smsc-simulator-2
+    ports:
+      - "2776:2775"
+
+  smsc-simulator-3:
+    image: smsc-simulator:latest
+    container_name: smsc-simulator-3
+    ports:
+      - "2777:2775"

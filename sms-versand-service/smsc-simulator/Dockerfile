@@ -12,14 +12,19 @@ RUN echo 'import org.jsmpp.bean.*; \
 import org.jsmpp.session.*; \
 import org.jsmpp.util.MessageIDGenerator; \
 import org.jsmpp.util.MessageId; \
+import org.jsmpp.util.RandomMessageIDGenerator; \
 import java.io.IOException; \
 \
 public class SimpleSmscSimulator { \
     public static void main(String[] args) throws Exception { \
-        int port = Integer.parseInt(System.getenv().getOrDefault("SMPP_PORT", "2775")); \
-        String systemId = System.getenv().getOrDefault("SYSTEM_ID", "smppclient1"); \
-        String password = System.getenv().getOrDefault("PASSWORD", "password"); \
+        String portStr = System.getenv("SMPP_PORT"); \
+        int port = portStr != null ? Integer.parseInt(portStr) : 2775; \
+        String systemId = System.getenv("SYSTEM_ID"); \
+        if (systemId == null) systemId = "smppclient1"; \
+        String password = System.getenv("PASSWORD"); \
+        if (password == null) password = "password"; \
         \
+        System.out.println("Starting SMSC Simulator on port " + port); \
         SMPPServerSessionListener sessionListener = new SMPPServerSessionListener(port); \
         System.out.println("SMSC Simulator listening on port " + port); \
         \
